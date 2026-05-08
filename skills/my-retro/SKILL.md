@@ -2,29 +2,30 @@
 name: my-retro
 description: 작업 완료 후 회고 문서를 생성합니다. 브랜치 삭제 전 포트폴리오·이력서 참고용 기록을 남깁니다.
 disable-model-invocation: true
-allowed-tools: Bash(git log *) Bash(git diff *) Bash(git branch *) Bash(git show *) Bash(mkdir *) Bash(git config *)
+allowed-tools: Agent
 ---
 
-현재 브랜치 작업에 대한 회고 문서를 작성합니다.
+현재 브랜치 작업에 대한 회고 문서 작성을 Agent tool로 위임합니다.
 
-## 정보 수집
+Agent tool을 호출하세요. 파라미터:
+- description: "브랜치 회고 문서 생성"
+- prompt: 아래 내용 전달
 
-!`git branch --show-current`
+---
+현재 브랜치의 작업 내용을 분석하여 회고 문서를 작성합니다.
 
-!`git log main..HEAD --oneline`
+아래 명령을 실행하여 정보를 수집하세요:
+- git branch --show-current
+- git log main..HEAD --oneline
+- git log main..HEAD --format="%ai %s"
+- git diff main...HEAD --stat
+- git config user.name
 
-!`git log main..HEAD --format="%ai %s"`
+수집한 정보를 바탕으로 docs/retro/YYYY-MM-DD-{브랜치명}.md 파일을 생성합니다.
+docs/retro/ 디렉토리가 없으면 먼저 생성합니다.
 
-!`git diff main...HEAD --stat`
+파일 내용 형식:
 
-!`git config user.name`
-
-## 문서 생성
-
-위 정보와 작업 컨텍스트를 바탕으로 `docs/retro/YYYY-MM-DD-{브랜치명}.md` 파일을 생성합니다.
-`docs/retro/` 디렉토리가 없으면 먼저 생성합니다.
-
-```markdown
 # [기능명] 작업 회고
 
 **작업 기간**: YYYY-MM-DD ~ YYYY-MM-DD
@@ -62,6 +63,8 @@ allowed-tools: Bash(git log *) Bash(git diff *) Bash(git branch *) Bash(git show
 
 - 현재 구현의 한계
 - 향후 개선 가능한 부분
-```
 
-파일 생성 후 경로를 알려줍니다.
+파일 생성 완료 후 경로를 반환합니다.
+---
+
+에이전트 완료 후 생성된 파일 경로를 사용자에게 알립니다.

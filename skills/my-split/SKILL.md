@@ -2,9 +2,15 @@
 name: my-split
 description: 계획된 기능을 주니어 개발자가 패턴과 개념을 익힐 수 있는 단계별 작업으로 분해합니다.
 disable-model-invocation: true
+argument-hint: [auto]
 ---
 
 현재 plan을 기반으로 작업을 단계별로 분리합니다.
+
+## 실행 모드
+
+$ARGUMENTS가 `auto`이면: 각 step을 사용자 확인 없이 순서대로 자동 구현합니다.
+그 외(기본값): step 목록을 출력한 후, 구현 시 **step 하나가 완료될 때마다 반드시 멈추고** 사용자의 확인("다음 step 진행해줘" 등)을 기다립니다. 사용자가 명시적으로 다음 step을 요청하기 전까지 절대 자동으로 진행하지 않습니다.
 
 ## 각 Step 형식
 

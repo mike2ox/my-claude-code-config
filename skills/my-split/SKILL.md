@@ -3,9 +3,15 @@ name: my-split
 description: 계획된 기능을 주니어 개발자가 패턴과 개념을 익힐 수 있는 단계별 작업으로 분해합니다.
 disable-model-invocation: true
 argument-hint: [auto]
+allowed-tools: Read(docs/plan/*)
 ---
 
 현재 plan을 기반으로 작업을 단계별로 분리합니다.
+
+## plan 참조
+
+`docs/plan/` 디렉토리에서 가장 최근 파일을 읽어 plan 내용을 파악합니다.
+파일이 없으면 현재 대화 컨텍스트의 plan을 사용합니다.
 
 ## 실행 모드
 

@@ -3,7 +3,7 @@ name: my-review
 description: 코드 리뷰 피드백을 받아 개선사항을 분류하고 순서대로 적용합니다.
 disable-model-invocation: true
 argument-hint: [리뷰 내용]
-allowed-tools: Agent Read(*) Edit(*) Bash(npx tsc *) Bash(pnpm tsc *)
+allowed-tools: Agent Read(*) Edit(*) Write(docs/review/*) Bash(npx tsc *) Bash(pnpm tsc *) Bash(git branch *) Bash(mkdir *)
 ---
 
 코드 리뷰 피드백을 분석하고 개선사항을 적용합니다.
@@ -41,4 +41,31 @@ $ARGUMENTS
 2. 각 수정 후 타입 오류 확인
 3. 완료 후 적용 항목과 미적용 항목 요약
 
-수정 완료 후 `/my-commit`으로 커밋하세요.
+## 3단계: 피드백 요약 저장
+
+수정 완료 후 `docs/review/YYYY-MM-DD-{브랜치명}.md` 파일을 생성합니다.
+`docs/review/` 디렉토리가 없으면 먼저 생성합니다.
+
+파일 형식:
+```markdown
+# 코드 리뷰 피드백 — {브랜치명} ({날짜})
+
+## 원본 피드백
+{$ARGUMENTS 전체}
+
+## 분류 결과
+
+### 필수 수정
+- 항목별 내용, 적용 여부
+
+### 권장 개선
+- 항목별 내용, 적용 여부
+
+### 선택적 제안
+- 항목별 내용, 적용 여부 및 미적용 이유
+
+## 적용된 변경 파일
+- 파일 경로: 변경 내용 한 줄 요약
+```
+
+저장 완료 후 `/my-iterate`로 다음 개선 작업을 분해하거나, `/my-commit`으로 커밋하세요.

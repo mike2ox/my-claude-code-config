@@ -15,15 +15,18 @@ bash ~/Project/my-claude-code-config/install.sh
 
 | 커맨드 | 설명 |
 |--------|------|
-| `/my-init [update]` | 현재 프로젝트 CLAUDE.md에 표준 워크플로우 섹션 추가. `update` 인자 시 기존 섹션을 최신 버전으로 교체 |
+| `/my-init [update]` | 현재 프로젝트 CLAUDE.md에 표준 워크플로우 섹션 추가. `update` 인자 시 CLAUDE.md와 README.md를 최신 버전으로 교체 |
 | `/my-plan [기능명]` | 기능 아이디어와 설계 방향 정리 (plan 모드) → `docs/plan/` 저장 |
 | `/my-split [auto]` | plan → 주니어 친화적 step별 작업 분해. 기본값은 step 완료마다 사용자 확인 대기, `auto` 인자 시 자동 진행 |
 | `/my-commit` | Claude attribution 없는 커밋 작성 |
 | `/my-check` | `npx tsc` 타입 체크 후 최적화 기회 검토 (분석은 서브에이전트 위임) |
-| `/my-pr` | 브랜치 변경 분석 후 PR 제목 추천 |
+| `/my-pr [full\|auto]` | 브랜치 변경 분석 후 PR 제목 후보 + body 생성. `full`/`auto` 파라미터 시 GitHub draft PR 자동 생성 + assignee 설정 |
 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 (분류 분석은 서브에이전트 위임) → `docs/review/` 저장 |
 | `/my-iterate [auto]` | 리뷰 피드백 기반 개선 작업을 step별로 분해. my-review 이후 사용 |
 | `/my-retro` | 작업 회고 문서 생성 — 피드백 이력·코드 변화 포함 (`docs/retro/`, 전체 서브에이전트 위임) |
+| `/my-status` | 현재 워크플로우 위치 파악 — 브랜치·문서 현황·미커밋 변경사항·다음 권장 단계 |
+| `/my-pivot [작업 설명]` | 진행 중인 워크플로우를 중단하고 다른 작업으로 전환 후 복귀 안내 |
+| `/my-disk` | 맥 디스크 여유 공간 확인 및 안전한 항목 정리 |
 
 ## 표준 작업 플로우
 
@@ -68,5 +71,8 @@ skills/
 ├── my-pr/SKILL.md
 ├── my-review/SKILL.md
 ├── my-iterate/SKILL.md
-└── my-retro/SKILL.md
+├── my-retro/SKILL.md
+├── my-pivot/SKILL.md
+├── my-status/SKILL.md
+└── my-disk/SKILL.md
 ```

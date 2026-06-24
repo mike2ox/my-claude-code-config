@@ -25,4 +25,4 @@ done
 
 echo ""
 echo "Done. Restart Claude Code to load the skills."
-echo "Available commands: /my-init, /my-plan, /my-split, /my-commit, /my-check, /my-pr, /my-review, /my-iterate, /my-retro, /my-pivot, /my-status, /my-disk"
+echo "Available commands: /my-init, /my-plan, /my-split, /my-commit, /my-check, /my-pr, /my-review, /my-iterate, /my-retro, /my-pivot, /my-status, /my-disk, /my-daily-log"

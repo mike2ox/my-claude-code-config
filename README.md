@@ -27,6 +27,7 @@ bash ~/Project/my-claude-code-config/install.sh
 | `/my-status` | 현재 워크플로우 위치 파악 — 브랜치·문서 현황·미커밋 변경사항·다음 권장 단계 |
 | `/my-pivot [작업 설명]` | 진행 중인 워크플로우를 중단하고 다른 작업으로 전환 후 복귀 안내 |
 | `/my-disk` | 맥 디스크 여유 공간 확인 및 안전한 항목 정리 |
+| `/my-daily-log [추가 메모]` | 오늘 Claude Code 대화 로그를 분석하여 Obsidian 일지 초안 생성 |
 
 ## 표준 작업 플로우
 
@@ -55,7 +56,7 @@ docs/
 
 | 패턴 | 적용 skill |
 |------|-----------|
-| 전체 위임 — agent가 모든 작업 수행, 결과만 반환 | `my-retro` |
+| 전체 위임 — agent가 모든 작업 수행, 결과만 반환 | `my-retro`, `my-daily-log` |
 | 부분 위임 — agent가 분석, 메인 세션이 수정 적용 | `my-check`, `my-review` |
 | 메인 세션 직접 실행 — 작업이 가볍거나 plan mode 필요 | `my-init`, `my-plan`, `my-split`, `my-iterate`, `my-commit`, `my-pr` |
 
@@ -74,5 +75,6 @@ skills/
 ├── my-retro/SKILL.md
 ├── my-pivot/SKILL.md
 ├── my-status/SKILL.md
-└── my-disk/SKILL.md
+├── my-disk/SKILL.md
+└── my-daily-log/SKILL.md
 ```

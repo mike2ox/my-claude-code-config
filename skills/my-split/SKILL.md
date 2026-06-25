@@ -8,6 +8,16 @@ allowed-tools: Read(docs/plan/*)
 
 현재 plan을 기반으로 작업을 단계별로 분리합니다.
 
+## 시작 전 필수 단계: Git Branch 생성
+
+step 목록 출력 전에 반드시 해당 작업에 적합한 git branch를 생성합니다.
+
+1. plan 내용을 파악하여 작업 이름을 kebab-case로 추출
+2. `git checkout -b <branch-name>` 실행 — 생성과 동시에 해당 브랜치로 전환
+3. 브랜치 생성 및 전환 완료를 사용자에게 알린 후 step 목록 출력
+
+브랜치 이름 예시: `feat/user-auth`, `fix/login-redirect`, `refactor/api-layer`
+
 ## plan 참조
 
 `docs/plan/` 디렉토리에서 가장 최근 파일을 읽어 plan 내용을 파악합니다.

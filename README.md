@@ -17,7 +17,7 @@ bash ~/Project/my-claude-code-config/install.sh
 |--------|------|
 | `/my-init [update]` | 현재 프로젝트 CLAUDE.md에 표준 워크플로우 섹션 추가. `update` 인자 시 CLAUDE.md와 README.md를 최신 버전으로 교체 |
 | `/my-plan [기능명]` | 기능 아이디어와 설계 방향 정리 (plan 모드) → `docs/plan/` 저장 |
-| `/my-split [auto]` | plan → 주니어 친화적 step별 작업 분해. 기본값은 step 완료마다 사용자 확인 대기, `auto` 인자 시 자동 진행 |
+| `/my-split [auto]` | git branch 생성·전환 후 plan → 주니어 친화적 step별 작업 분해. 기본값은 step 완료마다 사용자 확인 대기, `auto` 인자 시 자동 진행 |
 | `/my-commit` | Claude attribution 없는 커밋 작성 |
 | `/my-check` | `npx tsc` 타입 체크 후 최적화 기회 검토 (분석은 서브에이전트 위임) |
 | `/my-pr [full\|auto]` | 브랜치 변경 분석 후 PR 제목 후보 + body 생성. `full`/`auto` 파라미터 시 GitHub draft PR 자동 생성 + assignee 설정 |

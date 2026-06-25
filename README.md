@@ -28,13 +28,22 @@ bash ~/Project/my-claude-code-config/install.sh
 | `/my-pivot [작업 설명]` | 진행 중인 워크플로우를 중단하고 다른 작업으로 전환 후 복귀 안내 |
 | `/my-disk` | 맥 디스크 여유 공간 확인 및 안전한 항목 정리 |
 | `/my-daily-log [추가 메모]` | 오늘 Claude Code 대화 로그를 분석하여 Obsidian 일지 초안 생성 |
+| `/my-memo [대화 내용]` | 팀원과 나눈 기술/프로젝트 대화를 기반으로 웹 리서치 후 Obsidian 인사이트 메모 생성. 일지의 Reference 섹션에서 wikilink로 연결 가능 |
+| `/my-refine [피드백]` | 기획 단계(plan/step)에 대한 피드백 반영. `my-split` 결과물 수정 시 사용 |
 
 ## 표준 작업 플로우
 
 ```
 /my-plan → /my-split → (구현 + /my-commit 반복) → /my-check → /my-pr
-                                                                    ↓
-                                              /my-retro ← /my-iterate ← /my-review
+               ↓                                                    ↓
+          /my-refine                               /my-retro ← /my-iterate ← /my-review
+          (step 수정)
+```
+
+학습·인사이트 메모는 독립적으로 사용합니다:
+
+```
+/my-memo [대화 내용] → Obsidian 메모 생성 → /my-daily-log 일지에서 [[wikilink]] 연결
 ```
 
 새 프로젝트 시작 시 `/my-init`, 워크플로우가 바뀌었을 때는 `/my-init update`를 실행하면 됩니다.
@@ -56,7 +65,7 @@ docs/
 
 | 패턴 | 적용 skill |
 |------|-----------|
-| 전체 위임 — agent가 모든 작업 수행, 결과만 반환 | `my-retro`, `my-daily-log` |
+| 전체 위임 — agent가 모든 작업 수행, 결과만 반환 | `my-retro`, `my-daily-log`, `my-memo` |
 | 부분 위임 — agent가 분석, 메인 세션이 수정 적용 | `my-check`, `my-review` |
 | 메인 세션 직접 실행 — 작업이 가볍거나 plan mode 필요 | `my-init`, `my-plan`, `my-split`, `my-iterate`, `my-commit`, `my-pr` |
 
@@ -76,5 +85,6 @@ skills/
 ├── my-pivot/SKILL.md
 ├── my-status/SKILL.md
 ├── my-disk/SKILL.md
-└── my-daily-log/SKILL.md
+├── my-daily-log/SKILL.md
+└── my-memo/SKILL.md
 ```

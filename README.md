@@ -5,9 +5,12 @@
 ## 설치
 
 ```bash
-git clone <repo-url> ~/Project/my-claude-code-config
-bash ~/Project/my-claude-code-config/install.sh
+git clone <repo-url> ~/Projects/my-claude-code-config
 ```
+
+이후 AI agent에게 세팅을 위임하거나, 직접 설치하려면 [`INSTALL.md`](INSTALL.md)를 참고하세요.
+
+> **AI Agent**: 설치 요청을 받으면 `CLAUDE.md`의 "세팅 요청 처리" 섹션을 따르세요.
 
 `~/.claude/skills/` 에 symlink를 생성합니다. 이후 모든 프로젝트에서 `/my-*` 커맨드를 사용할 수 있습니다.
 

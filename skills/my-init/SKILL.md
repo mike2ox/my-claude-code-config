@@ -34,14 +34,18 @@ $ARGUMENTS가 `update`이면: 기존 `## 표준 작업 플로우` 섹션을 최�
 
 | 단계 | 커맨드 | 설명 |
 |------|--------|------|
-| 1. 기획 | `/my-plan [기능명]` | 기능 아이디어와 설계 방향 정리 (plan 모드) → docs/plan/ 저장 |
-| 2. 작업 분해 | `/my-split` | git branch 생성·전환 후 plan → 주니어 친화적 step별 작업 분해 (기본: step별 확인) |
-| 3. 커밋 | `/my-commit` | step 완료마다 attribution 없이 커밋 |
-| 4. 완료 검사 | `/my-check` | 타입 체크 후 최적화 기회 검토 |
+| 0. 요구 확정 | `/my-interview [만들 것]` | 요청이 모호할 때만. 한 번에 한 질문씩 던져 대상·성공 기준·제약 확정 |
+| 1. 기획 | `/my-plan [기능명]` | 가정 명시 후 설계 방향·리스크·안 할 것 정리 (plan 모드) → docs/plan/ 저장 |
+| 2. 작업 분해 | `/my-split` | git branch 생성·전환 후 plan → 수직 슬라이스 단위 step 분해 (기본: step별 확인) |
+| 3. 커밋 | `/my-commit` | step 완료마다 원자성 점검 후 attribution 없이 커밋 |
+| — 실패 시 | `/my-debug [증상]` | 테스트·빌드 실패를 재현 → 국소화 → 근본 원인 → 재발 방지 순으로 해결 |
+| 4. 완료 검사 | `/my-check` | 타입·린트·테스트·빌드 검증 후 5축 코드 리뷰 |
 | 5. PR 생성 | `/my-pr [full\|auto]` | 브랜치 변경 분석 후 PR 제목 후보 + body 생성. `full`/`auto` 파라미터 시 GitHub draft PR 자동 생성 + assignee 설정 |
 | 6. 리뷰 반영 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 → docs/review/ 저장 |
 | 7. 개선 분해 | `/my-iterate` | 리뷰 피드백 기반 개선 작업을 step별로 분해 |
 | 8. 회고 | `/my-retro` | 작업 회고 문서 생성 (피드백 이력 + 코드 변화 포함) |
+
+진행 위치가 헷갈리면 `/my-status`, 다른 작업으로 전환해야 하면 `/my-pivot`을 사용합니다.
 ```
 
 ### README.md 업데이트
@@ -54,10 +58,12 @@ README.md 파일이 있고 `## 커맨드 목록` 섹션이 존재하면, 해당 
 | 커맨드 | 설명 |
 |--------|------|
 | `/my-init [update]` | 현재 프로젝트 CLAUDE.md에 표준 워크플로우 섹션 추가. `update` 인자 시 CLAUDE.md와 README.md를 최신 버전으로 교체 |
-| `/my-plan [기능명]` | 기능 아이디어와 설계 방향 정리 (plan 모드) → `docs/plan/` 저장 |
-| `/my-split [auto]` | git branch 생성·전환 후 plan → 주니어 친화적 step별 작업 분해. 기본값은 step 완료마다 사용자 확인 대기, `auto` 인자 시 자동 진행 |
-| `/my-commit` | Claude attribution 없는 커밋 작성 |
-| `/my-check` | `npx tsc` 타입 체크 후 최적화 기회 검토 (분석은 서브에이전트 위임) |
+| `/my-interview [만들 것]` | 요청이 모호할 때 한 번에 한 질문씩 던져 진짜 의도·성공 기준·제약을 확정 → `/my-plan` 입력으로 인계 |
+| `/my-plan [기능명]` | 가정 명시 후 기능 아이디어와 설계 방향 정리 (plan 모드) → `docs/plan/` 저장 |
+| `/my-split [auto]` | git branch 생성·전환 후 plan → 주니어 친화적 step별 작업 분해 (수직 슬라이싱·크기 기준). 기본값은 step 완료마다 사용자 확인 대기, `auto` 인자 시 자동 진행 |
+| `/my-commit` | 원자성 점검 후 Claude attribution 없는 커밋 작성 |
+| `/my-debug [증상]` | 테스트·빌드 실패를 재현 → 국소화 → 근본 원인 → 재발 방지 순으로 해결 |
+| `/my-check` | 타입·린트·테스트·빌드 검증 후 5축(정확성·가독성·구조·성능·보안) 코드 리뷰 (분석은 서브에이전트 위임) |
 | `/my-pr [full\|auto]` | 브랜치 변경 분석 후 PR 제목 후보 + body 생성. `full`/`auto` 파라미터 시 GitHub draft PR 자동 생성 + assignee 설정 |
 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 (분류 분석은 서브에이전트 위임) → `docs/review/` 저장 |
 | `/my-iterate [auto]` | 리뷰 피드백 기반 개선 작업을 step별로 분해. my-review 이후 사용 |

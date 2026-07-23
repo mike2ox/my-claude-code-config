@@ -57,13 +57,17 @@ ls ~/.claude/skills/ | grep "^my-"
 | 커맨드 | 설명 |
 |--------|------|
 | `/my-init [update]` | 현재 프로젝트 CLAUDE.md에 표준 워크플로우 섹션 추가 |
-| `/my-plan [기능명]` | 기능 아이디어와 설계 방향 정리 → `docs/plan/` 저장 |
-| `/my-split [auto]` | plan → step별 작업 분해 |
-| `/my-commit` | Claude attribution 없는 커밋 |
-| `/my-check` | 타입 체크 후 최적화 기회 검토 |
+| `/my-interview [만들 것]` | 요청이 모호할 때 한 질문씩 던져 의도·성공 기준·제약 확정 |
+| `/my-plan [기능명]` | 가정 명시 후 설계 방향·리스크 정리 → `docs/plan/` 저장 |
+| `/my-split [auto]` | plan → 수직 슬라이스 단위 step별 작업 분해 |
+| `/my-commit` | 원자성 점검 후 Claude attribution 없는 커밋 |
+| `/my-debug [증상]` | 테스트·빌드 실패를 근본 원인 기반으로 해결 |
+| `/my-check` | 타입·린트·테스트·빌드 검증 후 5축 코드 리뷰 |
 | `/my-pr` | PR 제목 추천 |
 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 |
 | `/my-iterate [auto]` | 리뷰 피드백 기반 개선 작업 분해 |
 | `/my-retro` | 작업 회고 문서 생성 |
+| `/my-status` | 현재 워크플로우 위치 파악 |
 | `/my-pivot` | 방향 전환 시 plan 재설계 |
+| `/my-refine [피드백]` | 기획 단계(plan/step) 피드백 반영 |
 | `/my-disk` | 맥 디스크 여유 공간 확인 및 정리 |

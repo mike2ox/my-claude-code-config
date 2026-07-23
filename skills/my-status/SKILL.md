@@ -45,11 +45,13 @@ docs/ 파일 존재 여부와 미커밋 상태를 바탕으로 현재 단계를 
 
 | 조건 | 추정 단계 |
 |------|---------|
-| plan 없음 | `/my-plan` 전 |
+| plan 없음 | `/my-plan` 전 — 요구가 모호하면 `/my-interview` 먼저 |
 | plan 있음, review 없음, 미커밋 있음 | my-split 구현 중 |
 | plan 있음, review 없음, 미커밋 없음 | 구현 완료 → `/my-check` 또는 `/my-pr` |
 | review 있음, retro 없음 | my-review 완료 → `/my-iterate` 또는 `/my-retro` |
 | retro 있음 | 작업 완료 |
+
+타입 체크·테스트가 실패하는 상태라면 단계와 무관하게 `/my-debug`를 먼저 권합니다.
 
 **다음 권장 단계**: {추정 결과에 따른 권장 커맨드}
 ---

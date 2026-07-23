@@ -90,6 +90,7 @@ skills/
 ├── my-iterate/SKILL.md
 ├── my-retro/SKILL.md
 ├── my-pivot/SKILL.md
+├── my-refine/SKILL.md
 ├── my-status/SKILL.md
 ├── my-disk/SKILL.md
 ├── my-daily-log/SKILL.md

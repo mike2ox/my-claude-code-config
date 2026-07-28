@@ -24,5 +24,13 @@ for skill_dir in "$REPO_DIR/skills"/my-*/; do
 done
 
 echo ""
+echo "Registering global (user-scope) MCP servers..."
+if command -v claude >/dev/null 2>&1; then
+  bash "$REPO_DIR/mcp-install.sh" || echo "  ⚠ mcp-install.sh failed — 수동 실행: bash mcp-install.sh"
+else
+  echo "  ⚠ claude CLI 없음 — MCP 등록 건너뜀. 설치 후: bash mcp-install.sh"
+fi
+
+echo ""
 echo "Done. Restart Claude Code to load the skills."
 echo "Available commands: /my-init, /my-plan, /my-split, /my-commit, /my-check, /my-pr, /my-review, /my-iterate, /my-retro, /my-pivot, /my-status, /my-disk, /my-daily-log, /my-memo"

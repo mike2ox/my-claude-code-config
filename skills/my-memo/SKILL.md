@@ -2,7 +2,7 @@
 name: my-memo
 description: 팀원과 나눈 기술/프로젝트 대화를 기반으로 웹 리서치 후 Obsidian 인사이트 메모를 생성하고 Vault의 _inbox 폴더에 직접 저장합니다. 승격은 사용자가 수동으로 합니다.
 disable-model-invocation: true
-argument-hint: [대화 내용 또는 주제]
+argument-hint: [--vault <경로>] [대화 내용 또는 주제]
 allowed-tools: Agent, Bash, Write, AskUserQuestion
 ---
 
@@ -15,32 +15,48 @@ allowed-tools: Agent, Bash, Write, AskUserQuestion
 - **저장은 자동, 승격은 수동.** 메모는 항상 `10_Notes/_inbox/`에 자동 저장한다. `10_Notes/` 본체로의 승격은 사용자가 나중에 수동으로 한다. (자동 저장으로 세션 휘발을 막고, `_inbox` 격리로 Vault 오염을 막는다.)
 - **리서치 전에 저장 경로부터 확인한다.** 비싼 리서치를 한 뒤 저장할 곳이 없어 버리는 일을 방지.
 
-## 경로 상수
+## 경로 설정
 
-- 메모 저장 폴더(inbox): `/Volumes/860QVO/clebrain/10_Notes/_inbox/`
-- 일지 폴더: `/Volumes/860QVO/clebrain/00_Index/`
+Vault 루트는 **하드코딩하지 않고** `vault.conf`(이 SKILL.md와 같은 디렉터리)에서 읽는다. Vault가 이동하면 `vault.conf`의 `VAULT_ROOT` 한 줄만 고치면 되고, SKILL.md 본문은 건드릴 필요가 없다.
+
+- 설정 파일: `vault.conf` (같은 스킬 폴더 내), 형식: `VAULT_ROOT=<절대경로>`
+- 이번 실행에서만 다른 Vault를 쓰고 싶으면 `$ARGUMENTS` 맨 앞에 `--vault <경로>`를 붙인다. 예: `/my-memo --vault /Volumes/다른디스크/OtherVault 이 내용 정리해줘`
+  - `--vault`가 주어지면 이번 실행에서는 그 값을 최우선으로 쓰고, `vault.conf`는 변경하지 않는다(임시 override).
+- 메모 저장 폴더(inbox): `{VAULT_ROOT}/10_Notes/_inbox/`
+- 일지 폴더: `{VAULT_ROOT}/00_Index/`
 - 파일명 규칙: `{YYYY-MM-DD} {핵심키워드}.md` (제목에 `/` 등 경로 특수문자 금지)
 
 ---
 
 ## 0단계: 사전조건 체크 (메인 루프, Bash)
 
-리서치를 시작하기 **전에** 저장 경로를 확인한다.
+리서치를 시작하기 **전에** Vault 경로를 확정하고 저장 경로를 확인한다.
 
 ```bash
-ls -d "/Volumes/860QVO/clebrain/10_Notes/_inbox/" 2>/dev/null || mkdir -p "/Volumes/860QVO/clebrain/10_Notes/_inbox/"
+# 1) $ARGUMENTS에 --vault <경로>가 있으면 그 값을, 없으면 vault.conf의 VAULT_ROOT를 쓴다.
+cat ~/.claude/skills/my-memo/vault.conf
 ```
 
-- 외장 SSD가 언마운트되어 상위 경로(`/Volumes/860QVO/clebrain/`)조차 없으면, mkdir이 실패한다.
+- `--vault` override가 없으면 위에서 읽은 `VAULT_ROOT` 값을 이후 모든 단계에서 그대로 사용한다.
+- 그 다음 저장 경로 존재를 확인한다:
+
+```bash
+ls -d "{VAULT_ROOT}/10_Notes/_inbox/" 2>/dev/null || mkdir -p "{VAULT_ROOT}/10_Notes/_inbox/"
+```
+
+- 외장 SSD가 언마운트되어 `{VAULT_ROOT}` 자체가 없으면, mkdir이 실패한다(예: `/Volumes/...`에 상위 마운트 포인트가 없어 엉뚱한 빈 폴더가 새로 생성되는 사고를 막기 위해, mkdir 전에 `{VAULT_ROOT}`의 **상위 디렉터리**가 실제로 존재하는지 먼저 확인한다).
   이때는 AskUserQuestion으로 사용자에게 알리고 선택지를 제시한다:
   - a) 외장 SSD 마운트 후 재시도
-  - b) 이번엔 화면 출력만 하고 저장 생략
+  - b) `--vault`로 다른 경로 지정
+  - c) 이번엔 화면 출력만 하고 저장 생략
   경로가 확보되지 않으면 리서치(1~2단계)로 진행하지 않는다.
 - 오늘 날짜 확인: `date +%Y-%m-%d`
 
 ## 1단계: 주제 파악 (메인 루프)
 
-대화 내용($ARGUMENTS)에서 추출한다:
+`$ARGUMENTS`에서 `--vault <경로>` 토큰이 있으면 0단계에서 이미 처리했으므로 제거하고, 나머지를 대화 내용으로 취급한다.
+
+대화 내용에서 추출한다:
 - 핵심 기술 주제 (1-3개)
 - 등장한 기술 용어/키워드
 - 논의된 문제 또는 컨텍스트
@@ -87,7 +103,7 @@ journal: "[[{YYYY-MM-DD}]]"
 
 ## 대화 내용
 
-{$ARGUMENTS 원문 전체를 그대로 기재}
+{$ARGUMENTS 원문 전체를 그대로 기재 — 단, 1단계에서 제거한 `--vault <경로>` 토큰은 제외}
 
 ## 심화 내용
 
@@ -112,7 +128,7 @@ frontmatter 필드 의미:
 
 **저장 실행:**
 - 저장 직전 경로 존재를 한 번 더 가볍게 확인한다(그 사이 언마운트 대비).
-- 대상: `/Volumes/860QVO/clebrain/10_Notes/_inbox/{YYYY-MM-DD} {제목}.md`
+- 대상: `{VAULT_ROOT}/10_Notes/_inbox/{YYYY-MM-DD} {제목}.md` (`{VAULT_ROOT}`는 0단계에서 확정한 값)
 - **중복 파일명 처리**: 동일 경로가 이미 있으면 자동으로 덮어쓰지 말 것. AskUserQuestion으로
   "덮어쓰기 / 다른 이름(`(2)` 등) / 취소"를 사용자에게 물어 결정한다. (append 금지 — 서로 다른 리서치를 한 파일에 섞지 않는다.)
 
@@ -129,7 +145,7 @@ frontmatter 필드 의미:
 ## 일지 연결 방법 (사용자 안내용)
 
 이 스킬은 메모 frontmatter에 `journal: "[[{YYYY-MM-DD}]]"`를 넣어 **자동으로 일지와 backlink 연결**한다.
-- 오늘 일지(`00_Index/{YYYY-MM-DD}.md`)를 열면 Obsidian의 **Backlinks 패널**에 이 메모가 나타난다.
+- 오늘 일지(`{VAULT_ROOT}/00_Index/{YYYY-MM-DD}.md`)를 열면 Obsidian의 **Backlinks 패널**에 이 메모가 나타난다.
 - 일지 본문에 눈에 보이는 링크를 원하면, 승격 시점에 일지의 `## Reference` 섹션에 아래를 직접 추가한다:
   ```
   [[{파일명 확장자 제외}]]

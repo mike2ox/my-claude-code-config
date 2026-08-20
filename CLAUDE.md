@@ -2,7 +2,7 @@
 
 ## 프로젝트 개요
 
-개인 Claude Code 워크플로우 스킬 모음. `skills/my-*/` 디렉토리를 `~/.claude/skills/` 에 symlink로 연결해 `/my-*` 커맨드를 전역으로 사용할 수 있게 합니다.
+개인 Claude Code 워크플로우 스킬 모음. `skills/*/` 디렉토리를 `~/.claude/skills/` 에 symlink로 연결해 전역 커맨드로 사용할 수 있게 합니다.
 
 ## 세팅 요청 처리
 
@@ -21,13 +21,13 @@
 mkdir -p ~/.claude/skills
 ```
 
-**Step 2** — 이 저장소의 절대 경로를 기준으로 각 `my-*` skill에 symlink 생성:
+**Step 2** — 이 저장소의 절대 경로를 기준으로 각 skill에 symlink 생성:
 
 ```bash
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_TARGET="$HOME/.claude/skills"
 
-for skill_dir in "$REPO_DIR/skills"/my-*/; do
+for skill_dir in "$REPO_DIR/skills"/*/; do
   skill_name=$(basename "$skill_dir")
   target="$SKILLS_TARGET/$skill_name"
 
@@ -47,7 +47,7 @@ done
 **Step 4** — 설치 확인:
 
 ```bash
-ls ~/.claude/skills/ | grep "^my-"
+ls ~/.claude/skills/ | grep -E "^(my-|goal-maker$)"
 ```
 
 세부 사항은 [`INSTALL.md`](INSTALL.md)를 참조하세요.
@@ -56,6 +56,7 @@ ls ~/.claude/skills/ | grep "^my-"
 
 | 커맨드 | 설명 |
 |--------|------|
+| `/goal-maker [목표 또는 초안]` | Claude Code/Codex 내장 `/goal` 대상을 자동 판별해 목표글 작성 또는 기존 글의 적합성 판정 |
 | `/my-init [update]` | 현재 프로젝트 CLAUDE.md에 표준 워크플로우 섹션 추가 |
 | `/my-interview [만들 것]` | 요청이 모호할 때 한 질문씩 던져 의도·성공 기준·제약 확정 |
 | `/my-plan [기능명]` | 가정 명시 후 설계 방향·리스크 정리 → `docs/plan/` 저장 |

@@ -15,16 +15,16 @@
 mkdir -p ~/.claude/skills
 ```
 
-### 2. 각 my-* skill에 symlink 생성
+### 2. 각 skill에 symlink 생성
 
-`skills/` 하위의 `my-*` 디렉토리마다 `~/.claude/skills/` 에 symlink를 만듭니다.
+`skills/` 하위의 각 디렉토리를 `~/.claude/skills/` 에 symlink로 만듭니다.
 이미 symlink가 있으면 건너뛰고, 일반 디렉토리가 존재하면 경고를 출력합니다.
 
 ```bash
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_TARGET="$HOME/.claude/skills"
 
-for skill_dir in "$REPO_DIR/skills"/my-*/; do
+for skill_dir in "$REPO_DIR/skills"/*/; do
   skill_name=$(basename "$skill_dir")
   target="$SKILLS_TARGET/$skill_name"
 
@@ -46,7 +46,7 @@ skills를 로드하려면 Claude Code를 재시작하세요.
 ## 설치 확인
 
 ```bash
-ls ~/.claude/skills/ | grep "^my-"
+ls ~/.claude/skills/ | grep -E "^(my-|goal-maker$)"
 ```
 
 다음 항목이 보이면 정상입니다:
@@ -63,6 +63,7 @@ my-pr
 my-retro
 my-review
 my-split
+goal-maker
 ```
 
 ## 제거
@@ -70,7 +71,7 @@ my-split
 설치한 symlink를 모두 제거하려면:
 
 ```bash
-for skill in ~/.claude/skills/my-*/; do
+for skill in ~/.claude/skills/my-*/ ~/.claude/skills/goal-maker/; do
   [ -L "$skill" ] && rm "$skill" && echo "  ✗ $(basename "$skill") removed"
 done
 ```

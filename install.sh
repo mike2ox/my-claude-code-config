@@ -7,9 +7,9 @@ SKILLS_TARGET="$HOME/.claude/skills"
 
 mkdir -p "$SKILLS_TARGET"
 
-echo "Installing my-* skills..."
+echo "Installing skills..."
 
-for skill_dir in "$REPO_DIR/skills"/my-*/; do
+for skill_dir in "$REPO_DIR/skills"/*/; do
   skill_name=$(basename "$skill_dir")
   target="$SKILLS_TARGET/$skill_name"
 
@@ -33,4 +33,4 @@ fi
 
 echo ""
 echo "Done. Restart Claude Code to load the skills."
-echo "Available commands: /my-init, /my-plan, /my-split, /my-commit, /my-check, /my-pr, /my-review, /my-iterate, /my-retro, /my-pivot, /my-status, /my-disk, /my-daily-log, /my-memo"
+echo "Available commands: /goal-maker, /my-init, /my-plan, /my-split, /my-commit, /my-check, /my-pr, /my-review, /my-iterate, /my-retro, /my-pivot, /my-status, /my-disk, /my-daily-log, /my-memo"

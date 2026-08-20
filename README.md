@@ -12,12 +12,13 @@ git clone <repo-url> ~/Projects/my-claude-code-config
 
 > **AI Agent**: 설치 요청을 받으면 `CLAUDE.md`의 "세팅 요청 처리" 섹션을 따르세요.
 
-`~/.claude/skills/` 에 symlink를 생성합니다. 이후 모든 프로젝트에서 `/my-*` 커맨드를 사용할 수 있습니다.
+`~/.claude/skills/` 에 symlink를 생성합니다. 이후 모든 프로젝트에서 `/my-*` 및 `/goal-maker` 커맨드를 사용할 수 있습니다.
 
 ## 커맨드 목록
 
 | 커맨드 | 설명 |
 |--------|------|
+| `/goal-maker [목표 또는 초안]` | Claude Code/Codex 내장 `/goal` 대상을 자동 판별해 목표글 작성 또는 기존 글의 적합성 판정 |
 | `/my-init [update]` | 현재 프로젝트 CLAUDE.md에 표준 워크플로우 섹션 추가. `update` 인자 시 CLAUDE.md와 README.md를 최신 버전으로 교체 |
 | `/my-interview [만들 것]` | 요청이 모호할 때 한 번에 한 질문씩 던져 진짜 의도·성공 기준·제약을 확정 → `/my-plan` 입력으로 인계 |
 | `/my-plan [기능명]` | 가정 명시 후 기능 아이디어와 설계 방향 정리 (plan 모드) → `docs/plan/` 저장 |
@@ -78,6 +79,7 @@ docs/
 
 ```
 skills/
+├── goal-maker/SKILL.md
 ├── my-init/SKILL.md
 ├── my-interview/SKILL.md
 ├── my-plan/SKILL.md

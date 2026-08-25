@@ -32,5 +32,9 @@ else
 fi
 
 echo ""
+echo "Installing notification sound hooks..."
+bash "$REPO_DIR/settings/install-sounds.sh" || echo "  ⚠ install-sounds.sh failed — 수동 실행: bash settings/install-sounds.sh"
+
+echo ""
 echo "Done. Restart Claude Code to load the skills."
 echo "Available commands: /goal-maker, /my-init, /my-plan, /my-split, /my-commit, /my-check, /my-pr, /my-review, /my-iterate, /my-retro, /my-pivot, /my-status, /my-disk, /my-daily-log, /my-memo"

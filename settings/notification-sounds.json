@@ -1,0 +1,37 @@
+{
+  "Stop": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "A=/System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/Modern/Aurora.m4r; { [ -f \"$A\" ] && afplay \"$A\"; } 2>/dev/null || afplay /System/Library/Sounds/Glass.aiff 2>/dev/null || true # my-cc-config:sound",
+          "async": true
+        }
+      ]
+    }
+  ],
+  "Notification": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "msg=$(jq -r '.message // \"입력을 기다리는 중입니다\"' | tr -d '\"\\\\' | head -c 200); osascript -e \"display notification \\\"$msg\\\" with title \\\"Claude Code\\\"\" >/dev/null 2>&1; for i in 1 2 3; do afplay -t 0.9 /System/Library/Sounds/Ping.aiff; sleep 0.25; done # my-cc-config:sound",
+          "async": true,
+          "timeout": 20
+        }
+      ]
+    }
+  ],
+  "StopFailure": [
+    {
+      "matcher": "overloaded|server_error|rate_limit",
+      "hooks": [
+        {
+          "type": "command",
+          "command": "afplay /System/Library/Sounds/Hero.aiff 2>/dev/null || true # my-cc-config:sound",
+          "async": true
+        }
+      ]
+    }
+  ]
+}

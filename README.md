@@ -14,6 +14,25 @@ git clone <repo-url> ~/Projects/my-claude-code-config
 
 `~/.claude/skills/` 에 symlink를 생성합니다. 이후 모든 프로젝트에서 `/my-*` 및 `/goal-maker` 커맨드를 사용할 수 있습니다.
 
+## 알림음
+
+작업 상태를 소리로 알려주는 훅입니다. 커맨드가 아니라 `~/.claude/settings.json`의 `hooks` 설정입니다.
+
+| 이벤트 | 소리 | 울리는 순간 |
+|--------|------|-------------|
+| `Stop` | Aurora | Claude가 응답을 마칠 때 |
+| `Notification` | Ping ×3 + 알림 배너 | 권한 승인 대기 / 60초 이상 유휴 — 자리를 비워도 놓치지 않도록 |
+| `StopFailure` | Hero | overloaded·rate_limit 등으로 중단될 때 |
+
+```bash
+bash settings/install-sounds.sh              # 설치 (재실행해도 중복되지 않음)
+bash settings/install-sounds.sh --uninstall  # 제거
+```
+
+`install.sh`에 포함되어 있으므로 전체 설치 시 자동으로 적용됩니다. 소리를 바꾸려면
+`settings/notification-sounds.json`의 경로를 수정하고 다시 실행하면 됩니다. 사용 가능한
+기본 사운드는 `/System/Library/Sounds/`에 있습니다.
+
 ## 커맨드 목록
 
 | 커맨드 | 설명 |
@@ -78,6 +97,10 @@ docs/
 ## 구조
 
 ```
+settings/
+├── notification-sounds.json   ← 알림음 훅 정의
+└── install-sounds.sh          ← settings.json의 hooks에 병합/제거
+
 skills/
 ├── goal-maker/SKILL.md
 ├── my-init/SKILL.md

@@ -42,12 +42,22 @@ for skill_dir in "$REPO_DIR/skills"/*/; do
 done
 ```
 
-**Step 3** — 완료 후 사용자에게 Claude Code 재시작을 안내하세요.
+**Step 3** — 알림음 훅 설치 (`~/.claude/settings.json`의 `hooks`에 병합):
 
-**Step 4** — 설치 확인:
+```bash
+bash "$REPO_DIR/settings/install-sounds.sh"
+```
+
+settings.json을 통째로 덮지 말고 반드시 이 스크립트를 쓰세요. 파일에는 `model`·`statusLine` 등
+사용자의 다른 설정이 들어 있습니다. 스크립트는 백업을 남기고 재실행해도 중복되지 않습니다.
+
+**Step 4** — 완료 후 사용자에게 Claude Code 재시작을 안내하세요.
+
+**Step 5** — 설치 확인:
 
 ```bash
 ls ~/.claude/skills/ | grep -E "^(my-|goal-maker$)"
+jq '.hooks | keys' ~/.claude/settings.json   # Stop, Notification, StopFailure 포함 확인
 ```
 
 세부 사항은 [`INSTALL.md`](INSTALL.md)를 참조하세요.

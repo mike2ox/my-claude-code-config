@@ -1,0 +1,6 @@
+project_name: "my-claude-code-config"
+# 코드 언어가 없는 설정/문서 저장소 → 언어서버를 띄우지 않음 (메모리 0)
+languages: []
+ignore_all_files_in_gitignore: true
+ignored_paths: []
+read_only: false

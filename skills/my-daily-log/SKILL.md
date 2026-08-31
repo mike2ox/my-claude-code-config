@@ -23,7 +23,7 @@ Agent tool을 호출하세요. 파라미터:
 
 Claude Code 프로젝트 로그 경로를 계산합니다:
 - 현재 경로의 `/`를 `-`로 치환하여 `~/.claude/projects/{변환된경로}/` 구성
-- 예: `/Users/mosong/Project` → `~/.claude/projects/-Users-mosong-Project/`
+- 예: `/Users/me/Projects/my-app` → `~/.claude/projects/-Users-me-Projects-my-app/`
 
 오늘 날짜(YYYY-MM-DD)의 JSONL 파일을 찾습니다:
 

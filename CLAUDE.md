@@ -77,8 +77,9 @@ jq '.hooks | keys' ~/.claude/settings.json   # Stop, Notification, StopFailure �
 | `/my-pr` | PR 제목 추천 |
 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 |
 | `/my-iterate [auto]` | 리뷰 피드백 기반 개선 작업 분해 |
-| `/my-retro` | 작업 회고 문서 생성 |
+| `/my-retro` | 작업 회고 HTML 문서 생성 (세션 마무리 뉘앙스에 자동 발동) |
 | `/my-status` | 현재 워크플로우 위치 파악 |
-| `/my-pivot` | 방향 전환 시 plan 재설계 |
 | `/my-refine [피드백]` | 기획 단계(plan/step) 피드백 반영 |
+| `/my-daily-log [메모]` | 오늘 대화 로그 분석 후 Obsidian 일지 초안 생성 |
+| `/my-memo [대화 내용]` | 대화 기반 웹 리서치 후 Obsidian 인사이트 메모 저장 |
 | `/my-disk` | 맥 디스크 여유 공간 확인 및 정리 |

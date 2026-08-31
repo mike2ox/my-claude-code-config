@@ -1,6 +1,7 @@
 ---
 name: my-disk
 description: 맥 디스크 여유 공간을 확인하고, 안전하게 정리할 수 있는 항목을 찾아 사용자 확인 후 삭제합니다.
+disable-model-invocation: true
 allowed-tools: Bash(*) AskUserQuestion
 ---
 

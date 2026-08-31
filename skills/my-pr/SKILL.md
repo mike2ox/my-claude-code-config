@@ -17,11 +17,11 @@ allowed-tools: Bash(git log *) Bash(git diff *) Bash(git branch *) Bash(git conf
 
 아래 명령을 병렬로 실행합니다:
 
-!`git branch --show-current`
-
-!`git log main..HEAD --oneline`
-
-!`git diff main...HEAD --stat`
+```bash
+git branch --show-current
+git log main..HEAD --oneline
+git diff main...HEAD --stat
+```
 
 추가로 아래 파일이 있으면 읽어 내용을 반영합니다:
 - `docs/plan/` 디렉토리의 가장 최근 파일 (기획 배경)

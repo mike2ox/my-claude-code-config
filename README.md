@@ -48,9 +48,8 @@ bash settings/install-sounds.sh --uninstall  # 제거
 | `/my-pr [full\|auto]` | 브랜치 변경 분석 후 PR 제목 후보 + body 생성. `full`/`auto` 파라미터 시 GitHub draft PR 자동 생성 + assignee 설정 |
 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 (분류 분석은 서브에이전트 위임) → `docs/review/` 저장 |
 | `/my-iterate [auto]` | 리뷰 피드백 기반 개선 작업을 step별로 분해. my-review 이후 사용 |
-| `/my-retro` | 작업 회고 문서 생성 — 피드백 이력·코드 변화 포함 (`docs/retro/`, 전체 서브에이전트 위임) |
+| `/my-retro` | 작업 회고 HTML 문서 생성 — 피드백 이력·코드 변화 포함, 비개발직군도 읽을 수 있는 형식 (`docs/retro/`, 전체 서브에이전트 위임). "작업 마무리하자" 같은 세션 종료 뉘앙스에도 자동 발동 |
 | `/my-status` | 현재 워크플로우 위치 파악 — 브랜치·문서 현황·미커밋 변경사항·다음 권장 단계 |
-| `/my-pivot [작업 설명]` | 진행 중인 워크플로우를 중단하고 다른 작업으로 전환 후 복귀 안내 |
 | `/my-disk` | 맥 디스크 여유 공간 확인 및 안전한 항목 정리 |
 | `/my-daily-log [추가 메모]` | 오늘 Claude Code 대화 로그를 분석하여 Obsidian 일지 초안 생성 |
 | `/my-memo [대화 내용]` | 팀원과 나눈 기술/프로젝트 대화를 기반으로 웹 리서치 후 Obsidian 인사이트 메모 생성. 일지의 Reference 섹션에서 wikilink로 연결 가능 |
@@ -114,7 +113,6 @@ skills/
 ├── my-review/SKILL.md
 ├── my-iterate/SKILL.md
 ├── my-retro/SKILL.md
-├── my-pivot/SKILL.md
 ├── my-refine/SKILL.md
 ├── my-status/SKILL.md
 ├── my-disk/SKILL.md

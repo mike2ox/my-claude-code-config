@@ -1,6 +1,6 @@
 ---
 name: my-status
-description: 현재 워크플로우 위치를 한눈에 파악합니다. my-pivot 이후 복귀하거나 작업을 재개할 때 사용하세요.
+description: 현재 워크플로우 위치를 한눈에 파악합니다. 중단했던 작업을 재개할 때 사용하세요.
 disable-model-invocation: true
 allowed-tools: Bash(git branch *) Bash(git log *) Bash(git diff *) Bash(git status *) Bash(ls *) Bash(find *)
 ---
@@ -11,15 +11,13 @@ allowed-tools: Bash(git branch *) Bash(git log *) Bash(git diff *) Bash(git stat
 
 아래 명령을 병렬로 실행합니다:
 
-!`git branch --show-current`
-
-!`git log main..HEAD --oneline`
-
-!`git log -1 --format="%h %s (%cr)"`
-
-!`git status --short`
-
-!`find docs/plan docs/review docs/retro -name "*.md" 2>/dev/null | sort`
+```bash
+git branch --show-current
+git log main..HEAD --oneline
+git log -1 --format="%h %s (%cr)"
+git status --short
+find docs/plan docs/review docs/retro -name "*.md" -o -name "*.html" 2>/dev/null | sort
+```
 
 ## 출력 형식
 

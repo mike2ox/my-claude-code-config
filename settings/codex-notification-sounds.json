@@ -1,0 +1,13 @@
+{
+  "Stop": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "A=/System/Library/PrivateFrameworks/ToneLibrary.framework/Versions/A/Resources/AlertTones/Modern/Aurora.m4r; { [ -f \"$A\" ] && afplay \"$A\"; } 2>/dev/null || afplay /System/Library/Sounds/Glass.aiff 2>/dev/null || true # my-cc-config:sound",
+          "async": true
+        }
+      ]
+    }
+  ]
+}

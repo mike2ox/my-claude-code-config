@@ -2,7 +2,9 @@
 
 ## 프로젝트 개요
 
-개인 Claude Code 워크플로우 스킬 모음. `skills/*/` 디렉토리를 `~/.claude/skills/` 에 symlink로 연결해 전역 커맨드로 사용할 수 있게 합니다.
+개인 워크플로우 스킬 모음. `skills/*/` 디렉토리를 각 제품의 skills 디렉토리에 symlink로
+연결해 전역 커맨드로 사용할 수 있게 합니다. **Claude Code(`~/.claude/skills`)와
+OpenAI Codex(`~/.codex/skills`) 양쪽**을 지원합니다.
 
 ## 세팅 요청 처리
 
@@ -15,50 +17,51 @@
 
 ### 설치 절차
 
-**Step 1** — skills 디렉토리 확보:
+**Step 1** — `install.sh`를 실행하세요. 절차를 손으로 재현하지 말고 이 스크립트를 쓰세요.
 
 ```bash
-mkdir -p ~/.claude/skills
+bash install.sh              # Claude Code + Codex 양쪽
+bash install.sh --target codex   # 한쪽만
 ```
 
-**Step 2** — 이 저장소의 절대 경로를 기준으로 각 skill에 symlink 생성:
+스크립트가 하는 일: 타깃별 skills 디렉토리 생성 → 심링크 연결(깨졌거나 옛 경로를 가리키는
+링크는 자동 재연결) → MCP 4종 등록 → 알림음 훅 병합. 전부 멱등이라 재실행해도 안전합니다.
+
+**Step 2** — 고아 심링크가 보고되면 사용자에게 목록을 보여주고 확인을 받으세요.
+
+저장소에서 사라진 스킬의 링크는 기본적으로 **목록만 출력하고 삭제하지 않습니다.**
+사용자가 동의하면 그때 `bash install.sh --prune`을 실행하세요. 확인 없이 삭제하지 않습니다.
+
+**Step 3** — 완료 후 해당 제품(Claude Code / Codex) 재시작을 안내하세요.
+
+**Step 4** — 설치 확인:
 
 ```bash
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILLS_TARGET="$HOME/.claude/skills"
-
-for skill_dir in "$REPO_DIR/skills"/*/; do
-  skill_name=$(basename "$skill_dir")
-  target="$SKILLS_TARGET/$skill_name"
-
-  if [ -L "$target" ]; then
-    echo "  ↺ $skill_name (symlink already exists, skipping)"
-  elif [ -d "$target" ]; then
-    echo "  ⚠ $skill_name (directory exists — remove manually to replace)"
-  else
-    ln -s "$skill_dir" "$target"
-    echo "  ✓ $skill_name"
-  fi
+# 깨진 링크가 없어야 한다 (출력 없으면 정상)
+for l in ~/.claude/skills/* ~/.codex/skills/*; do
+  [ -L "$l" ] && { [ -e "$l" ] || echo "BROKEN $l"; }
 done
+
+diff <(ls skills/) <(ls ~/.claude/skills/ | grep -E "^(my-|goal-maker$)") && echo "claude 일치"
+diff <(ls skills/) <(ls ~/.codex/skills/  | grep -E "^(my-|goal-maker$)") && echo "codex 일치"
+
+jq '.hooks | keys' ~/.claude/settings.json   # Stop, Notification, StopFailure
+jq '.hooks | keys' ~/.codex/hooks.json       # Stop (+ 기존 PreToolUse 보존)
 ```
 
-**Step 3** — 알림음 훅 설치 (`~/.claude/settings.json`의 `hooks`에 병합):
+### 주의사항
 
-```bash
-bash "$REPO_DIR/settings/install-sounds.sh"
-```
-
-settings.json을 통째로 덮지 말고 반드시 이 스크립트를 쓰세요. 파일에는 `model`·`statusLine` 등
-사용자의 다른 설정이 들어 있습니다. 스크립트는 백업을 남기고 재실행해도 중복되지 않습니다.
-
-**Step 4** — 완료 후 사용자에게 Claude Code 재시작을 안내하세요.
-
-**Step 5** — 설치 확인:
-
-```bash
-ls ~/.claude/skills/ | grep -E "^(my-|goal-maker$)"
-jq '.hooks | keys' ~/.claude/settings.json   # Stop, Notification, StopFailure 포함 확인
-```
+- **설정 파일을 통째로 덮지 마세요.** `~/.claude/settings.json`에는 `model`·`statusLine` 등이,
+  `~/.codex/hooks.json`에는 사용자의 `rtk` PreToolUse 훅이 들어 있습니다. 반드시
+  `settings/install-sounds.sh` / `settings/install-codex-hooks.sh`를 쓰세요 — 백업을 남기고
+  `# my-cc-config:sound` 마커가 붙은 훅만 교체합니다.
+- **Codex에는 Stop 알림음만 설치됩니다.** Codex의 훅 이벤트 집합에 `Notification`과
+  `StopFailure`가 없습니다. 이것은 버그가 아니라 제품 제약입니다.
+- **shrimp `DATA_DIR`은 Claude와 Codex가 같은 값을 써야 합니다**(기본
+  `/Volumes/860QVO/.shrimp-data`). 갈라지면 태스크 목록이 둘로 나뉩니다. 볼륨이 없으면
+  `mcp-install.sh`가 빈 디렉토리를 만들지 않고 중단합니다.
+- **워크트리에서 `install.sh`를 실행하지 마세요.** 심링크가 워크트리 경로를 가리키게 되어
+  워크트리를 제거하면 전부 깨집니다. 항상 메인 체크아웃에서 실행하세요.
 
 세부 사항은 [`INSTALL.md`](INSTALL.md)를 참조하세요.
 

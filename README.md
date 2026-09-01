@@ -1,37 +1,82 @@
 # my-skillset
 
-개인 Claude Code 워크플로우 설정 모음입니다.
+개인 워크플로우 설정 모음입니다. **Claude Code와 OpenAI Codex 양쪽**에 설치할 수 있습니다.
 
 ## 설치
 
 ```bash
 git clone <repo-url> ~/Projects/my-skillset
+bash install.sh                    # Claude Code + Codex 양쪽
+bash install.sh --target codex     # 한쪽만
+bash install.sh --prune            # 저장소에서 사라진 고아 심링크까지 정리
 ```
 
 이후 AI agent에게 세팅을 위임하거나, 직접 설치하려면 [`INSTALL.md`](INSTALL.md)를 참고하세요.
 
 > **AI Agent**: 설치 요청을 받으면 `CLAUDE.md`의 "세팅 요청 처리" 섹션을 따르세요.
 
-`~/.claude/skills/` 에 symlink를 생성합니다. 이후 모든 프로젝트에서 `/my-*` 및 `/goal-maker` 커맨드를 사용할 수 있습니다.
+각 타깃의 skills 디렉토리에 symlink를 생성합니다. 이후 모든 프로젝트에서 `/my-*` 및
+`/goal-maker` 커맨드를 사용할 수 있습니다.
+
+### 타깃별 지원 범위
+
+| 항목 | Claude Code | OpenAI Codex |
+|------|-------------|--------------|
+| 스킬 | `~/.claude/skills` | `~/.codex/skills` |
+| MCP 서버 | 4종 (`claude mcp add -s user`) | 4종 (`codex mcp add`) |
+| 알림음 훅 | `~/.claude/settings.json` — 3종 | `~/.codex/hooks.json` — **1종(Stop)** |
+
+스킬 포맷과 MCP 핀 버전은 양쪽이 동일합니다. **차이는 훅뿐입니다** — Codex의 훅 이벤트
+집합에 `Notification`과 `StopFailure`가 없어 `Stop`만 설치됩니다. Codex가 지원하는 이벤트는
+`PreToolUse`, `PermissionRequest`, `PostToolUse`, `PreCompact`, `PostCompact`,
+`SessionStart`, `SessionEnd`, `UserPromptSubmit`, `SubagentStart`, `SubagentStop`, `Stop`입니다.
+
+`install.sh`는 재실행해도 안전합니다. 이미 올바르게 걸린 링크는 건드리지 않고, 깨졌거나
+옛 경로를 가리키는 링크만 다시 연결합니다.
 
 ## 알림음
 
-작업 상태를 소리로 알려주는 훅입니다. 커맨드가 아니라 `~/.claude/settings.json`의 `hooks` 설정입니다.
+작업 상태를 소리로 알려주는 훅입니다. 커맨드가 아니라 각 제품의 훅 설정입니다.
 
-| 이벤트 | 소리 | 울리는 순간 |
-|--------|------|-------------|
-| `Stop` | Aurora | Claude가 응답을 마칠 때 |
-| `Notification` | Ping ×3 + 알림 배너 | 권한 승인 대기 / 60초 이상 유휴 — 자리를 비워도 놓치지 않도록 |
-| `StopFailure` | Hero | overloaded·rate_limit 등으로 중단될 때 |
+| 이벤트 | 소리 | 울리는 순간 | Claude | Codex |
+|--------|------|-------------|:------:|:-----:|
+| `Stop` | Aurora | 응답을 마칠 때 | ✓ | ✓ |
+| `Notification` | Ping ×3 + 알림 배너 | 권한 승인 대기 / 60초 이상 유휴 — 자리를 비워도 놓치지 않도록 | ✓ | — |
+| `StopFailure` | Hero | overloaded·rate_limit 등으로 중단될 때 | ✓ | — |
 
 ```bash
-bash settings/install-sounds.sh              # 설치 (재실행해도 중복되지 않음)
-bash settings/install-sounds.sh --uninstall  # 제거
+bash settings/install-sounds.sh                    # Claude 설치 (재실행해도 중복되지 않음)
+bash settings/install-sounds.sh --uninstall        # Claude 제거
+
+bash settings/install-codex-hooks.sh               # Codex 설치
+bash settings/install-codex-hooks.sh --uninstall   # Codex 제거
 ```
 
 `install.sh`에 포함되어 있으므로 전체 설치 시 자동으로 적용됩니다. 소리를 바꾸려면
-`settings/notification-sounds.json`의 경로를 수정하고 다시 실행하면 됩니다. 사용 가능한
-기본 사운드는 `/System/Library/Sounds/`에 있습니다.
+`settings/notification-sounds.json`(Claude) 또는 `settings/codex-notification-sounds.json`(Codex)의
+경로를 수정하고 다시 실행하면 됩니다. 사용 가능한 기본 사운드는 `/System/Library/Sounds/`에 있습니다.
+
+두 스크립트 모두 설정 파일을 통째로 덮지 않고 `hooks`에만 병합하며, 자신이 넣은 훅은
+`# my-cc-config:sound` 마커로 식별합니다. 사용자의 다른 훅(예: Codex의 `rtk` PreToolUse)은
+보존됩니다. Codex는 `hooks.json`을 해시로 신뢰하므로 수정 후 재신뢰를 요구할 수 있습니다.
+
+## MCP 서버
+
+`mcp-install.sh`가 핀 고정된 4종(context7, sequential-thinking, shrimp-task-manager, serena)을
+양쪽 타깃에 동일 버전으로 등록합니다.
+
+```bash
+bash mcp-install.sh                  # 양쪽
+bash mcp-install.sh --target codex   # 한쪽만
+```
+
+shrimp의 `DATA_DIR`은 기본값이 `/Volumes/860QVO/.shrimp-data`입니다. Claude와 Codex가 같은
+디렉토리를 공유해야 태스크 목록이 갈라지지 않기 때문입니다. 볼륨이 마운트돼 있지 않으면
+빈 디렉토리를 만들지 않고 에러로 중단합니다. 다른 위치를 쓰려면:
+
+```bash
+SHRIMP_DATA_DIR=/경로 bash mcp-install.sh
+```
 
 ## 커맨드 목록
 

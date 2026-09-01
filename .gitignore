@@ -1,8 +1,7 @@
 .DS_Store
 
-# Serena MCP: 설정/메모리는 추적, 캐시/로그는 제외
-.serena/cache/
-.serena/logs/
+# Serena MCP: 필요할 때 자동 생성되므로 추적하지 않음
+.serena/
 
 # Claude Code가 작업용으로 만드는 git worktree
 .claude/worktrees/

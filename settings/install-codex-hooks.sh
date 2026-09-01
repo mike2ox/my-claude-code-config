@@ -11,9 +11,18 @@
 # 재실행 시 마커가 붙은 훅만 걷어내고 다시 넣으므로 다른 훅은 건드리지 않습니다.
 #
 # Codex의 훅 이벤트에는 Notification·StopFailure가 없으므로 Stop만 설치합니다.
-# (Codex 지원 이벤트: PreToolUse, PermissionRequest, PostToolUse, PreCompact,
-#  PostCompact, SessionStart, SessionEnd, UserPromptSubmit, SubagentStart,
-#  SubagentStop, Stop)
+# (Codex 0.152.0 지원 이벤트: PreToolUse, PermissionRequest, PostToolUse,
+#  PreCompact, PostCompact, SessionStart, SessionEnd, UserPromptSubmit,
+#  SubagentStart, SubagentStop, Stop, Interrupt)
+#
+# Claude 조각과 달리 async 필드를 넣지 않습니다. Codex는 모르는 필드가 있으면
+# 그 훅을 조용히 버립니다 — 에러도, 신뢰 프롬프트도 뜨지 않아 원인을 찾기
+# 어렵습니다. codex exec에 --dangerously-bypass-hook-trust를 주고 실행했을 때
+# async가 있으면 훅이 돌지 않고, 빼면 `hook: Stop`이 찍히는 것으로 확인했습니다.
+#
+# 설치했다고 바로 도는 것도 아닙니다. Codex는 훅을 `파일:이벤트:인덱스` 단위로
+# 해시 신뢰하며, 대화형 세션에서 한 번 승인해야 config.toml의 [hooks.state]에
+# 등록됩니다. 승인 전까지는 조용히 건너뜁니다.
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"

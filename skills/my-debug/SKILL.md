@@ -3,7 +3,7 @@ name: my-debug
 description: 테스트 실패, 빌드 오류, 예상과 다른 동작을 추측이 아닌 근본 원인 기반으로 해결합니다. step 구현 중 무언가 깨졌을 때 사용하세요.
 disable-model-invocation: true
 argument-hint: [오류 메시지 또는 증상]
-allowed-tools: Agent Read(*) Edit(*) Bash(*) Write(docs/debug/*)
+allowed-tools: Agent Read(*) Edit(*) Bash(*)
 ---
 
 증상: $ARGUMENTS
@@ -108,7 +108,7 @@ npm test -- --runInBand
 중단했던 작업으로 복귀하려면 "이전 step 이어서 진행해줘"라고 입력하세요.
 ---
 
-수정 범위가 크거나 설계 변경이 필요하면 `/my-pivot`으로 별도 작업 전환을 제안합니다.
+수정 범위가 크거나 설계 변경이 필요하면 이번 수정으로 처리하지 말고, 별도 작업으로 분리할 것을 제안합니다.
 
 ## 조사 위임 판단
 

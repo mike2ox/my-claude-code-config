@@ -3,7 +3,7 @@ name: my-memo
 description: 팀원과 나눈 기술/프로젝트 대화를 기반으로 웹 리서치 후 Obsidian 인사이트 메모를 생성하고 Vault의 _inbox 폴더에 직접 저장합니다. 승격은 사용자가 수동으로 합니다.
 disable-model-invocation: true
 argument-hint: [--vault <경로>] [대화 내용 또는 주제]
-allowed-tools: Agent, Bash, Write, AskUserQuestion
+allowed-tools: Agent Bash(cat *) Bash(ls *) Bash(mkdir *) Bash(date *) Write(*) AskUserQuestion
 ---
 
 팀원과 나눈 대화 내용을 바탕으로 웹 리서치를 통해 Obsidian 인사이트 메모를 생성하고, Vault에 **파일로 직접 저장**합니다.

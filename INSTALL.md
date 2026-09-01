@@ -72,22 +72,13 @@ skills를 로드하려면 Claude Code를 재시작하세요.
 ls ~/.claude/skills/ | grep -E "^(my-|goal-maker$)"
 ```
 
-다음 항목이 보이면 정상입니다:
+이 저장소의 `skills/` 하위 디렉터리와 **개수·이름이 모두 일치**하면 정상입니다. 아래 명령으로 한 번에 대조할 수 있습니다:
 
+```bash
+diff <(ls skills/) <(ls ~/.claude/skills/ | grep -E "^(my-|goal-maker$)") && echo "일치"
 ```
-my-check
-my-commit
-my-disk
-my-init
-my-iterate
-my-pivot
-my-plan
-my-pr
-my-retro
-my-review
-my-split
-goal-maker
-```
+
+목록을 이 문서에 복제해 두지 않습니다 — 스킬이 추가·삭제될 때마다 어긋나기 때문입니다.
 
 ## 제거
 

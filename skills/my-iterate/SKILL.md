@@ -3,7 +3,7 @@ name: my-iterate
 description: 코드 리뷰 피드백을 기반으로 개선 작업을 단계별로 분해합니다. my-review 이후 다음 개선 작업을 계획할 때 사용하세요.
 disable-model-invocation: true
 argument-hint: [auto]
-allowed-tools: Read(docs/plan/*) Read(docs/review/*)
+allowed-tools: Read(*) Edit(*) Write(*) Bash(npx tsc *) Bash(pnpm *) Bash(npm *) Bash(bun *)
 ---
 
 my-review에서 받은 피드백을 기반으로 개선 작업을 단계별로 분리합니다.
@@ -19,7 +19,7 @@ my-review에서 받은 피드백을 기반으로 개선 작업을 단계별로 �
 $ARGUMENTS가 `auto`이면: 각 step을 사용자 확인 없이 순서대로 자동 구현합니다.
 그 외(기본값): step 하나가 완료될 때마다 반드시 멈추고 사용자의 확인을 기다립니다. 사용자가 명시적으로 다음 step을 요청하기 전까지 절대 자동으로 진행하지 않습니다.
 
-사용자 피드백이 현재 step과 무관한 새 작업 지시처럼 보이면, "현재 step과 다른 작업으로 보입니다. `/my-pivot [작업 설명]`으로 전환하시겠습니까?"라고 안내합니다.
+사용자 피드백이 현재 step과 무관한 새 작업 지시처럼 보이면, "현재 step과 다른 작업으로 보입니다. 지금 step을 마무리하고 진행할까요, 아니면 바로 전환할까요?"라고 확인한 뒤 진행합니다.
 
 ## 각 Step 형식
 

@@ -2,24 +2,37 @@
 name: my-check
 description: 작업 완료 후 타입 체크를 실행하고 5축 기준으로 코드 품질과 최적화 기회를 검토합니다.
 disable-model-invocation: true
-allowed-tools: Agent Bash(npx tsc *) Bash(pnpm tsc *) Bash(npm test *) Bash(npm run *) Bash(git diff *) Bash(git log *) Read(*) Edit(*)
+allowed-tools: Agent Bash(ls *) Bash(cat package.json) Bash(npx *) Bash(npm *) Bash(pnpm *) Bash(yarn *) Bash(bun *) Bash(git diff *) Bash(git log *) Read(*) Edit(*)
 ---
 
 작업 완료 후 품질 검사를 두 단계로 실행합니다.
 
 ## 1단계: 자동 검증 (직접 실행)
 
-```bash
-npx tsc --noEmit
-```
-
-프로젝트에 아래 스크립트가 있으면 함께 실행합니다:
+먼저 락파일로 패키지 매니저를 판별합니다. `npm`을 기본값으로 두지 않습니다.
 
 ```bash
-npm run lint
-npm test
-npm run build
+ls package-lock.json pnpm-lock.yaml yarn.lock bun.lockb 2>/dev/null
 ```
+
+| 락파일 | 실행기 |
+|--------|--------|
+| `pnpm-lock.yaml` | `pnpm` |
+| `yarn.lock` | `yarn` |
+| `bun.lockb` | `bun` |
+| `package-lock.json` 또는 없음 | `npm` |
+
+판별한 실행기를 `{pm}`으로 두고, `package.json`의 `scripts`에 **실제로 존재하는 것만** 실행합니다. 없는 스크립트를 호출해 실패로 처리하지 않습니다.
+
+```bash
+cat package.json          # scripts 확인
+{pm} run typecheck        # 없으면 npx tsc --noEmit
+{pm} run lint
+{pm} test
+{pm} run build
+```
+
+TypeScript 프로젝트가 아니면(`tsconfig.json` 없음) 타입 체크를 건너뛰고 나머지만 실행합니다.
 
 오류가 있으면 모두 수정한 후 2단계로 진행합니다. 원인이 불분명한 실패는 `/my-debug`로 넘깁니다.
 

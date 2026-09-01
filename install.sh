@@ -37,4 +37,6 @@ bash "$REPO_DIR/settings/install-sounds.sh" || echo "  ⚠ install-sounds.sh fai
 
 echo ""
 echo "Done. Restart Claude Code to load the skills."
-echo "Available commands: /goal-maker, /my-init, /my-plan, /my-split, /my-commit, /my-check, /my-pr, /my-review, /my-iterate, /my-retro, /my-pivot, /my-status, /my-disk, /my-daily-log, /my-memo"
+printf "Available commands: "
+ls "$REPO_DIR/skills" | sed 's|^|/|' | tr '\n' ',' | sed 's/,$//; s/,/, /g'
+echo ""

@@ -1,6 +1,6 @@
 ---
 name: goal-maker
-description: Claude Code 또는 OpenAI Codex 내장 /goal에 전달할 목표글을 작성하거나 기존 글의 적합성을 감사하고, 입력 초반에 대상 환경에 맞는 검증 규칙을 자동 선택합니다.
+description: Claude Code 또는 OpenAI Codex 내장 /goal에 전달할 목표글을 작성하거나 기존 목표글의 적합성을 감사합니다.
 allowed-tools: AskUserQuestion Read(*)
 ---
 
@@ -40,7 +40,7 @@ $ARGUMENTS를 Claude Code 또는 OpenAI Codex의 내장 슬래시 커맨드 `/go
 
 이 섹션의 규칙은 `target_mode=claude`일 때만 적용합니다. Codex 목표에는 이 제한을 적용하지 않습니다.
 
-Claude Code 2.1.228의 내장 `/goal` 계약을 기준으로 합니다.
+현재 Claude Code의 내장 `/goal` 계약을 기준으로 합니다. 아래 제약은 제품 동작에서 확인된 것이며, 계약이 바뀌면 이 목록을 갱신합니다. 특정 버전 번호를 기준으로 삼지 않습니다.
 
 - 종료 상태는 하나이고, 조건 안에 그 상태를 확인하는 하나의 검사와 기대 결과를 둡니다.
 - 조건 문자열은 `/goal ` 접두사를 제외하고 500자 이내여야 합니다.
@@ -85,6 +85,8 @@ Claude 최종 출력:
 ## Codex 모드
 
 이 섹션의 규칙은 `target_mode=codex`일 때만 적용합니다. Claude의 500자 제한, evaluator의 대화-only 전제, 단일 검사 제한, `goal_met`/`impossible` 출력, plan mode 제한을 Codex 목표에 적용하지 않습니다.
+
+현재 OpenAI Codex의 내장 `/goal` 계약을 기준으로 합니다. 아래 항목은 제품 동작에서 확인된 것이며, 계약이 바뀌면 이 목록을 갱신합니다. 특정 버전 번호를 기준으로 삼지 않습니다.
 
 Codex의 `/goal`은 여러 턴에 걸친 작업을 하나의 명확한 종료 상태까지 진행시키는 용도입니다. 목표는 한 번의 짧은 요청보다 크되, 관련 없는 백로그 전체보다 작아야 합니다. Codex가 파일·문서·로그를 확인하고 명령을 실행할 수 있다는 전제로 검증 루프를 설계합니다.
 

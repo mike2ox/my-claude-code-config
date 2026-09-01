@@ -1,11 +1,11 @@
-# my-claude-code-config
+# my-skillset
 
 개인 Claude Code 워크플로우 설정 모음입니다.
 
 ## 설치
 
 ```bash
-git clone <repo-url> ~/Projects/my-claude-code-config
+git clone <repo-url> ~/Projects/my-skillset
 ```
 
 이후 AI agent에게 세팅을 위임하거나, 직접 설치하려면 [`INSTALL.md`](INSTALL.md)를 참고하세요.

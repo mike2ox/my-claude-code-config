@@ -1,4 +1,4 @@
-# my-claude-code-config — Agent Guide
+# my-skillset — Agent Guide
 
 ## 프로젝트 개요
 

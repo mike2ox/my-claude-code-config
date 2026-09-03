@@ -30,11 +30,19 @@ bash install.sh --help
 | 스킬 | `~/.claude/skills` | `~/.codex/skills` |
 | MCP 서버 | 4종 (`claude mcp add -s user`) | 4종 (`codex mcp add`) |
 | 알림음 훅 | `~/.claude/settings.json` — 3종 | `~/.codex/hooks.json` — **1종(Stop)** |
+| 세션 대화 로그 | `~/.claude/projects/<mangled>/*.jsonl` | `~/.codex/sessions/YYYY/MM/DD/rollout-*.jsonl` |
 
-스킬 포맷과 MCP 핀 버전은 동일합니다. 차이는 훅뿐이며, Codex의 훅 이벤트 집합에
-`Notification`과 `StopFailure`가 없기 때문입니다. Codex 지원 이벤트: `PreToolUse`,
+스킬 포맷과 MCP 핀 버전은 동일합니다. 설치 결과의 차이는 훅뿐이며, Codex의 훅 이벤트
+집합에 `Notification`과 `StopFailure`가 없기 때문입니다. Codex 지원 이벤트: `PreToolUse`,
 `PermissionRequest`, `PostToolUse`, `PreCompact`, `PostCompact`, `SessionStart`,
 `SessionEnd`, `UserPromptSubmit`, `SubagentStart`, `SubagentStop`, `Stop`.
+
+**실행 시점의 차이는 스킬이 스스로 흡수합니다.** 세션 대화 로그를 읽는 스킬
+(`my-retro`, `my-daily-log`)은 위 표의 두 경로를 모두 조회합니다. Codex 로그는
+프로젝트별로 나뉘지 않으므로 각 파일 첫 줄 `session_meta`의 `payload.cwd`로 걸러야
+합니다. 또한 Codex에는 Claude Code의 `Agent` 도구가 없으므로, 서브에이전트에
+위임하는 스킬은 도구가 없으면 메인 루프가 같은 절차를 직접 수행합니다 — 위임은
+컨텍스트를 아끼기 위한 것이지 절차의 일부가 아닙니다.
 
 ## 설치 단계
 

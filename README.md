@@ -93,7 +93,7 @@ SHRIMP_DATA_DIR=/경로 bash mcp-install.sh
 | `/my-pr [full\|auto]` | 브랜치 변경 분석 후 PR 제목 후보 + body 생성. `full`/`auto` 파라미터 시 GitHub draft PR 자동 생성 + assignee 설정 |
 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 (분류 분석은 서브에이전트 위임) → `docs/review/` 저장 |
 | `/my-iterate [auto]` | 리뷰 피드백 기반 개선 작업을 step별로 분해. my-review 이후 사용 |
-| `/my-retro` | 작업 회고 HTML 문서 생성 — 피드백 이력·코드 변화 포함, 비개발직군도 읽을 수 있는 형식 (`docs/retro/`, 전체 서브에이전트 위임). "작업 마무리하자" 같은 세션 종료 뉘앙스에도 자동 발동 |
+| `/my-retro` | 커밋과 **세션 대화 로그**를 근거로 회고 문서 생성 — 각 항목에 근거 표기, 무엇을 보고 썼는지 명시. 워크트리에서 실행해도 원본 체크아웃 `docs/retro/`에 저장하고 기존 파일 포맷을 승계. 재발 신호만 memory로 승격 (전체 서브에이전트 위임). "작업 마무리하자" 같은 세션 종료 뉘앙스에도 자동 발동 |
 | `/my-status` | 현재 워크플로우 위치 파악 — 브랜치·문서 현황·미커밋 변경사항·다음 권장 단계 |
 | `/my-disk` | 맥 디스크 여유 공간 확인 및 안전한 항목 정리 |
 | `/my-daily-log [추가 메모]` | 오늘 Claude Code 대화 로그를 분석하여 Obsidian 일지 초안 생성 |
@@ -125,7 +125,7 @@ skill 실행 시 아래 경로에 자동으로 문서가 생성됩니다.
 docs/
 ├── plan/       ← /my-plan 승인 후 저장 (기획 방향)
 ├── review/     ← /my-review 완료 후 저장 (피드백 이력)
-└── retro/      ← /my-retro 실행 시 저장 (회고 문서)
+└── retro/      ← /my-retro 실행 시 저장 (회고 문서 — 폴더가 없으면 만들기 전에 물어봅니다)
 ```
 
 ## 설계 원칙

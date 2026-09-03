@@ -80,7 +80,7 @@ jq '.hooks | keys' ~/.codex/hooks.json       # Stop (+ 기존 PreToolUse 보존)
 | `/my-pr` | PR 제목 추천 |
 | `/my-review [피드백]` | 코드 리뷰 피드백 분류 및 적용 |
 | `/my-iterate [auto]` | 리뷰 피드백 기반 개선 작업 분해 |
-| `/my-retro` | 작업 회고 HTML 문서 생성 (세션 마무리 뉘앙스에 자동 발동) |
+| `/my-retro` | 커밋 + 세션 대화 로그 기반 회고 문서 생성, 재발 신호는 memory 승격 (세션 마무리 뉘앙스에 자동 발동) |
 | `/my-status` | 현재 워크플로우 위치 파악 |
 | `/my-refine [피드백]` | 기획 단계(plan/step) 피드백 반영 |
 | `/my-daily-log [메모]` | 오늘 대화 로그 분석 후 Obsidian 일지 초안 생성 |
